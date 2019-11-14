@@ -1,5 +1,7 @@
 class HtmlHeadless
-
+  def self.callback_method
+    :share_image_generate
+  end
   def initialize(template)
     @template = File.read(Rails.root.join('app/views').join(template+".html.erb"))
   end
@@ -19,8 +21,10 @@ class HtmlHeadless
         --disable-features=NetworkService #{html_file.path}".gsub("\n",' ')
       `#{cmd}`
       if $?.success?
+        obj.class.skip_callback(:commit, :after, HtmlHeadless.callback_method)
         obj.send("#{uploader_method}=", screenshot_file)
-        obj.update_column("#{uploader_method}", obj["#{uploader_method}"])
+        obj.save
+        obj.class.set_callback(:commit, :after, HtmlHeadless.callback_method)
       else
         raise "result = #{$?}; command = #{cmd}"
       end
