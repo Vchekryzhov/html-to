@@ -20,7 +20,7 @@ class HtmlHeadless
       `#{cmd}`
       if $?.success?
         obj.send("#{uploader_method}=", screenshot_file)
-        obj.save
+        obj.update_column("#{uploader_method}", obj["#{uploader_method}"])
       else
         raise "result = #{$?}; command = #{cmd}"
       end
