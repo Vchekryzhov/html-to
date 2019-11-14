@@ -12,14 +12,26 @@
   .
 </style>
 ```
+2) В модели куда будут подключены шеры создать колбак на коммит
+``` ruby
+   after_commit HtmlHeadless.callback_method
+
+  define_method(HtmlHeadless.callback_method) do
+    SharingImageGenerate.perform_async(id, self.class.to_s, 'share/post')
+  end
+```
 2) Создать асинхронный сервис
 ``` ruby
-class GenerateSharingImage
-  require 'html_headless'
-  initialize(id)
-  @obj = Post.find(id)
-  HtmlHeadless.new('share/post').to_image(@obj, :share_image)
+class SharingImageGenerate
+  require 'erb'
+  include Sidekiq::Worker
+  sidekiq_options queue: 'default'
+  def perform(id, class_name, template)
+    @obj = class_name.constantize.find(id)
+    HtmlHeadless.new(template).to_image(@obj, :share_image)
+  end
 end
+
 ```
 
 После выполнения скриншот отрисованого html сохранится в uploader :share_image
