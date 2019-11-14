@@ -1,4 +1,9 @@
 # html-to
+# install
+``` ruby
+gem 'html_to', git: 'git@github.com:Vchekryzhov/html-to.git', require: 'html_headless'
+```
+
 # Get Started
 
 1)Создать html.erb файл со стилями в самом файле и путями до картинки на сервере.
