@@ -4,16 +4,14 @@ class HtmlHeadless
     @template = File.read(Rails.root.join('app/views').join(template+".html.erb"))
   end
 
-  def to_image(obj, uploader_method, width=500, height=500)
-    width = 500
-    height = 500
+  def to_image(obj, uploader_method, width=1200, height=630)
     html = ERB.new(@template.html_safe).result
-    html_file = Tempfile.new('html')
-    screenshot_file = Tempfile.new('screen')
+    html_file = Tempfile.new(['share','.html'])
+    screenshot_file = Tempfile.new(['screen','.jpg'])
     begin
       html_file.write(html)
       html_file.rewind
-      cmd = "chromium-browser
+      cmd = "'#{chrome}'
         --headless
         --screenshot=#{screenshot_file.path}
         --window-size=#{width},#{height}
@@ -31,6 +29,16 @@ class HtmlHeadless
        screenshot_file.close
        html_file.unlink
        screenshot_file.unlink
+    end
+  end
+
+  def chrome
+    if RbConfig::CONFIG['host_os'] =~ /darwin/
+      "/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
+    elsif RbConfig::CONFIG['host_os'] =~ /linux/
+      "chromium-browser"
+    else
+      raise StandardError.new "host os don't detected"
     end
   end
 end
