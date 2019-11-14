@@ -25,7 +25,7 @@ gem 'html_to', git: 'git@github.com:Vchekryzhov/html-to.git', require: 'html_hea
     SharingImageGenerate.perform_async(id, self.class.to_s, 'share/post')
   end
 ```
-2) Создать асинхронный сервис
+3) Создать асинхронный сервис
 ``` ruby
 class SharingImageGenerate
   require 'erb'
