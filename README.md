@@ -15,6 +15,7 @@
 2) Создать асинхронный сервис
 ``` ruby
 class GenerateSharingImage
+  require 'html_headless'
   initialize(id)
   @obj = Post.find(id)
   HtmlHeadless.new('share/post').to_image(@obj, :share_image)
