@@ -5,8 +5,7 @@ class HtmlHeadless
   end
 
   def to_image(obj, uploader_method, width=1200, height=630)
-    @obj = obj
-    html = ERB.new(@template.html_safe).result
+    html = ERB.new(@template.html_safe).result(binding)
     html_file = Tempfile.new(['share','.html'])
     screenshot_file = Tempfile.new(['screen','.jpg'])
     begin
