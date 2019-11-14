@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.summary     = 'Html-To transforms html to other format'
   s.description = 'Simple gem for transforms html page through chromium headless.'
   s.author      = 'Chekryzhov Viktor'
-  s.email       = 'kopylov.vlad@gmail.com'
+  s.email       = 'chekryzhov@charmerstudio.com'
   s.homepage    = 'https://github.com/Vchekryzhov/html-to'
   s.license     = 'MIT'
   s.files       = `git ls-files`.split("\n")
