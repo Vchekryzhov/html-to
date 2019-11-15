@@ -9,7 +9,7 @@ class HtmlHeadless
   def to_image(obj, uploader_method, width=1200, height=630)
     html = ERB.new(@template.html_safe).result(binding)
     html_file = Tempfile.new(['share','.html'])
-    screenshot_file = Tempfile.new(['screen','.jpg'])
+    screenshot_file = Tempfile.new(['screen','.png'])
     begin
       html_file.write(html)
       html_file.rewind
