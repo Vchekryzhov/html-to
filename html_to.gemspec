@@ -11,4 +11,5 @@ Gem::Specification.new do |s|
   s.homepage    = 'https://github.com/Vchekryzhov/html-to'
   s.license     = 'MIT'
   s.files       = `git ls-files`.split("\n")
+  s.add_dependency 'sidekiq'
 end

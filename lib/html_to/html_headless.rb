@@ -1,19 +1,12 @@
-module HtmlHeadless
+class HtmlTo::HtmlHeadless
   require 'fileutils'
 
-  def initialize(template)
-    @template = File.read(Rails.root.join('app/views').join(template+".html.erb"))
-  end
-
-  included do
-    after_commit :share_image_generate
-  end
-
-  def to_image(obj, uploader_method, width=1200, height=630)
+  def to_image(obj, width=1200, height=630)
+    @template = File.read(Rails.root.join('app/views').join(obj.class.class_variable_get(:@@share_template)+".html.erb"))
     html = ERB.new(@template.html_safe).result(binding)
     screenshot_file = Tempfile.new(['screen','.png'])
-    File.open(html_file_path, 'w') {|f| f.write(html) }
     screenshot_file = Tempfile.new(['screen','.jpg'])
+    File.open(html_file_path, 'w+') {|f| f.write(html) }
     begin
       cmd = "'#{chrome}'
         --headless
@@ -24,7 +17,7 @@ module HtmlHeadless
       `#{cmd}`
       if $?.success?
         obj.class.skip_callback(:commit, :after, :share_image_generate)
-        obj.send("#{uploader_method}=", screenshot_file)
+        obj.send("#{obj.class.class_variable_get(:@@share_uploader)}=", screenshot_file)
         obj.save
         obj.class.set_callback(:commit, :after, :share_image_generate)
       else
@@ -48,10 +41,6 @@ module HtmlHeadless
   end
 
   def html_file_path
-    @path = Rails.public_path.join(SecureRandom.urlsafe_base64.downcase + ".html")
-  end
-
-  def sharing_image_generate
-
+    @path ||= Rails.public_path.join(SecureRandom.urlsafe_base64.downcase + ".html")
   end
 end
