@@ -25,5 +25,3 @@ sudo apt install -y chromium-browser
   @@share_template = 'share/post'
   @@share_uploader = 'meta_image'
 ```
-
-После выполнения скриншот отрисованого html сохранится в uploader :share_image
