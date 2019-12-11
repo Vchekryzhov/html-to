@@ -1,7 +1,7 @@
 # html-to
 # install
 ``` ruby
-gem 'html_to', git: 'git@github.com:Vchekryzhov/html-to.git', require: 'html_headless'
+gem 'html_to', git: 'git@github.com:Vchekryzhov/html-to.git'
 ```
 ``` bash
 sudo apt install -y chromium-browser
