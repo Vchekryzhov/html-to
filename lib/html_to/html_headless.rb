@@ -2,6 +2,10 @@ class HtmlTo::HtmlHeadless
   require 'fileutils'
 
   def to_image(obj, width=1200, height=630)
+
+    width = obj.class.class_variable_get(:@@html_to_width) if obj.class.class_variable_defined?(:@@html_to_width)
+    height = obj.class.class_variable_get(:@@html_to_height) if obj.class.class_variable_defined?(:@@html_to_height)
+
     @template = File.read(Rails.root.join('app/views').join(obj.class.class_variable_get(:@@share_template)+".html.erb"))
     html = ERB.new(@template.html_safe).result(binding)
     screenshot_file = Tempfile.new(['screen','.png'])
