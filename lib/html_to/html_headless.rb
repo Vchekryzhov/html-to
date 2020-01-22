@@ -9,7 +9,6 @@ class HtmlTo::HtmlHeadless
     @template = File.read(Rails.root.join('app/views').join(obj.class.class_variable_get(:@@share_template)+".html.erb"))
     html = ERB.new(@template.html_safe).result(binding)
     screenshot_file = Tempfile.new(['screen','.png'])
-    screenshot_file = Tempfile.new(['screen','.jpg'])
     File.open(html_file_path, 'w+') {|f| f.write(html) }
     begin
       cmd = "'#{chrome}'
