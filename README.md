@@ -3,8 +3,14 @@
 ``` ruby
 gem 'html_to', git: 'git@github.com:Vchekryzhov/html-to.git'
 ```
+Ubuntu:
 ``` bash
 sudo apt install -y chromium-browser
+```
+
+Debian:
+```bash
+apt-get install chromium chromium-l10n
 ```
 # Get Started
 
