@@ -37,7 +37,12 @@ class HtmlTo::HtmlHeadless
     if RbConfig::CONFIG['host_os'] =~ /darwin/
       "/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
     elsif RbConfig::CONFIG['host_os'] =~ /linux/
-      "chromium-browser"
+      release = IO.popen("lsb_release -i -s").read
+      if release == "Debian\n"
+        'chromium'
+      else
+        'chromium-browser'
+      end
     else
       raise StandardError.new "host os don't detected"
     end
