@@ -19,10 +19,9 @@ class HtmlTo::HtmlHeadless
         --disable-features=NetworkService #{html_file_path}".gsub("\n",' ')
       `#{cmd}`
       if $?.success?
-        obj.class.skip_callback(:commit, :after, :share_image_generate) if obj.class._commit_callbacks.select { |cb| cb.kind.eql?(:after) }.collect(&:filter).include?(:share_image_generate)
+        obj.skip_share_image_generate = true
         obj.send("#{obj.class.class_variable_get(:@@share_uploader)}=", screenshot_file)
         obj.save
-        obj.class.set_callback(:commit, :after, :share_image_generate) if !obj.class._commit_callbacks.select { |cb| cb.kind.eql?(:after) }.collect(&:filter).include?(:share_image_generate)
       else
         raise "result = #{$?}; command = #{cmd}"
       end

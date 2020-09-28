@@ -3,7 +3,8 @@ module HtmlTo
   require 'html_to/html_headless.rb'
   require 'html_to/sharing_image_generate.rb'
   included do
-    after_commit :share_image_generate
+    after_commit :share_image_generate, unless: :skip_share_image_generate
+    attr_accessor :skip_share_image_generate
   end
 
   def share_image_generate
