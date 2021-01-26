@@ -8,27 +8,25 @@ class HtmlTo::HtmlHeadless
 
     @template = File.read(Rails.root.join('app/views').join(obj.class.class_variable_get(:@@share_template)+".html.erb"))
     html = ERB.new(@template.html_safe).result(binding)
-    screenshot_file = Tempfile.new(['screen','.png'])
     File.open(html_file_path, 'w+') {|f| f.write(html) }
     begin
       cmd = "'#{chrome}'
         --headless
-        --screenshot=#{screenshot_file.path}
+        --screenshot=#{screenshot_file_path}
         --window-size=#{width},#{height}
         --disable-gpu
         --disable-features=NetworkService #{html_file_path}".gsub("\n",' ')
       `#{cmd}`
       if $?.success?
         obj.skip_share_image_generate = true
-        obj.send("#{obj.class.class_variable_get(:@@share_uploader)}=", screenshot_file)
+        obj.send("#{obj.class.class_variable_get(:@@share_uploader)}=", File.open(screenshot_file_path))
         obj.save
       else
         raise "result = #{$?}; command = #{cmd}"
       end
     ensure
        FileUtils.rm(html_file_path)
-       screenshot_file.close
-       screenshot_file.unlink
+       FileUtils.rm(screenshot_file_path)
     end
   end
 
@@ -49,5 +47,8 @@ class HtmlTo::HtmlHeadless
 
   def html_file_path
     @path ||= Rails.public_path.join(SecureRandom.urlsafe_base64.downcase + ".html")
+  end
+  def screenshot_file_path
+    @screenshot_file_path ||= Rails.public_path.join(SecureRandom.urlsafe_base64.downcase + ".png")
   end
 end
