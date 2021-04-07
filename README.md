@@ -30,7 +30,7 @@ include HtmlTo
 
 you need create, on path ```@@share_template``` how example share/post will be ```app/views/share/post.html.erb```
 
-#####template file example:
+###### template file example:
 ``` html
 <!DOCTYPE html>
 <html lang="en">
