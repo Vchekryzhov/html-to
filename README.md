@@ -1,4 +1,3 @@
-# html-to
 # install
 ``` ruby
 gem 'html_to'
@@ -30,7 +29,7 @@ include HtmlTo
 
 you need create, on path ```@@share_template``` how example share/post will be ```app/views/share/post.html.erb```
 
-###### template file example:
+#### template file example:
 ``` html
 <!DOCTYPE html>
 <html lang="en">
@@ -73,7 +72,7 @@ you need create, on path ```@@share_template``` how example share/post will be `
 ```
 In your template file you has access to your object via @obj
 
-###### Assets, font, etc
+#### Assets, font, etc
 Headless browser will be start from Rails public path, all local assets should be access in the public folder.
 
 # Runner
