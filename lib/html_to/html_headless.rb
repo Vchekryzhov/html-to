@@ -1,5 +1,7 @@
 class HtmlTo::HtmlHeadless
   require 'fileutils'
+  require 'html_to/chromium_controll.rb'
+  include HtmlTo::ChromiumControll
 
   def to_image(obj, width=1200, height=630)
 
@@ -27,21 +29,6 @@ class HtmlTo::HtmlHeadless
     ensure
        FileUtils.rm(html_file_path)
        FileUtils.rm(screenshot_file_path)
-    end
-  end
-
-  def chrome
-    if RbConfig::CONFIG['host_os'] =~ /darwin/
-      "/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
-    elsif RbConfig::CONFIG['host_os'] =~ /linux/
-      release = IO.popen("lsb_release -i -s").read
-      if release == "Debian\n"
-        'chromium'
-      else
-        'chromium-browser'
-      end
-    else
-      raise StandardError.new "host os don't detected"
     end
   end
 

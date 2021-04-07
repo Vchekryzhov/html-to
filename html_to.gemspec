@@ -2,8 +2,8 @@ $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = 'html_to'
-  s.version     = '0.0.2'
-  s.date        = '2019-08-31'
+  s.version     = '0.7.0'
+  s.date        = '2021-04-07'
   s.summary     = 'Html-To transforms html to other format'
   s.description = 'Simple gem for transforms html page through chromium headless.'
   s.author      = 'Chekryzhov Viktor'
