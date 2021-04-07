@@ -75,3 +75,6 @@ In your template file you has access to your object via @obj
 
 ###### Assets, font, etc
 Headless browser will be start from Rails public path, all local assets should be access in the public folder.
+
+# Runner
+gem is used sidekiq worker and work at backround you need, run you sidekiq.
