@@ -2,13 +2,15 @@
 ``` ruby
 gem 'html_to'
 ```
-And also you need headless browser chrome
-
+## dependencies
+### gem dependecies 
+ - carrierwave
+ - sidekiq
+### system dependecies
 Ubuntu:
 ``` bash
 sudo apt install -y chromium-browser
 ```
-
 Debian:
 ```bash
 apt-get install chromium chromium-l10n
