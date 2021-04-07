@@ -17,7 +17,7 @@ apt-get install chromium chromium-l10n
 
 # Get Started
 ### Prepare your model
-1) do migrate string field for uploader
+add string field to youe model, for attach uploader
 
 and add start to your model, what you want use
 ``` ruby
