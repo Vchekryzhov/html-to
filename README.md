@@ -1,15 +1,16 @@
-# html-to
 # install
 ``` ruby
 gem 'html_to'
 ```
-And also you need headless browser chrome
-
+## dependencies
+### gem dependecies 
+ - carrierwave
+ - sidekiq
+### system dependecies
 Ubuntu:
 ``` bash
 sudo apt install -y chromium-browser
 ```
-
 Debian:
 ```bash
 apt-get install chromium chromium-l10n
@@ -17,7 +18,7 @@ apt-get install chromium chromium-l10n
 
 # Get Started
 ### Prepare your model
-1) do migrate string field for uploader
+add string field to youe model, for attach uploader
 
 and add start to your model, what you want use
 ``` ruby
@@ -30,7 +31,7 @@ include HtmlTo
 
 you need create, on path ```@@share_template``` how example share/post will be ```app/views/share/post.html.erb```
 
-######template file example:
+#### template file example:
 ``` html
 <!DOCTYPE html>
 <html lang="en">
@@ -73,5 +74,8 @@ you need create, on path ```@@share_template``` how example share/post will be `
 ```
 In your template file you has access to your object via @obj
 
-###### Assets, font, etc
+#### Assets, font, etc
 Headless browser will be start from Rails public path, all local assets should be access in the public folder.
+
+# Runner
+gem use sidekiq worker and work at background. you need, to start your sidekiq.
