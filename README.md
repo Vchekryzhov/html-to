@@ -9,10 +9,12 @@ gem 'html_to'
 ### system dependecies
 Ubuntu:
 ``` bash
+sudo apt install imagemagick
 sudo apt install -y chromium-browser
 ```
 Debian:
 ```bash
+sudo apt install imagemagick
 apt-get install chromium chromium-l10n
 ```
 
