@@ -16,8 +16,10 @@ Gem::Specification.new do |s|
                 'html_to.gemspec', '.github/*.md',
                 'Gemfile', 'Rakefile']
   s.extra_rdoc_files = ['README.md']
-  s.add_dependency 'activejob', '~> 7'
-  s.add_dependency 'activerecord', '~> 7'
-  s.add_dependency 'activestorage', '~> 7'
+  if ENV['TEST_RAILS_VERSION'].nil?
+    s.add_development_dependency 'rails', '~> 7.0.6'
+  else
+    s.add_development_dependency 'rails', ENV['TEST_RAILS_VERSION'].to_s
+  end
   s.metadata['rubygems_mfa_required'] = 'true'
 end
