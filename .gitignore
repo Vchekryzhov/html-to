@@ -29,3 +29,4 @@ spec/dummy/tmp/storage/*
 spec/dummy/public/assets
 spec/coverage/*
 .idea/*
+spec/dummy/.byebug_history
