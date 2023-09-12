@@ -12,10 +12,5 @@ describe HtmlTo::Configuration do
       expect(fake_class).to receive(:chromium_path=).with('/bin/fake-chromium')
       fake_class.chromium_path = '/bin/fake-chromium'
     end
-
-    it 'is possible to set global_template_path' do
-      expect(fake_class).to receive(:global_templates_path=).with('/views/fake-template')
-      fake_class.global_templates_path = '/views/fake-template'
-    end
   end
 end

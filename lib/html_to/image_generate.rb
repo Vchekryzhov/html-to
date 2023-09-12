@@ -12,8 +12,8 @@ class HtmlTo::ImageGenerate
     raise
   ensure
     FileUtils.rm_f(html_file_path)
-    FileUtils.rm_f(screenshot_file_path)
     FileUtils.rm_f(optimize_screenshot) if optimize_screenshot
+    FileUtils.rm_f(screenshot_file_path)
   end
 
   def generate_template(record, serializer, template)
@@ -33,7 +33,7 @@ class HtmlTo::ImageGenerate
     BASH
 
     %x(#{cmd})
-    raise StandardError, "result = #{chromium_status}; command = #{cmd}" unless chromium_run_success?
+    raise StandardError, "result = #{$CHILD_STATUS}; command = #{cmd}" unless chromium_run_success?
   end
 
   def attach_image(record, image_name)
@@ -51,6 +51,8 @@ class HtmlTo::ImageGenerate
   end
 
   def optimize_screenshot
+    return nil unless File.exist?(screenshot_file_path)
+
     @optimize_screenshot ||= if image_processing_installed?
                                ImageProcessing::MiniMagick
                                  .source(screenshot_file_path)
@@ -64,10 +66,6 @@ class HtmlTo::ImageGenerate
   end
 
   private
-
-  def chromium_status
-    $CHILD_STATUS
-  end
 
   def chromium_run_success?
     $CHILD_STATUS.success?

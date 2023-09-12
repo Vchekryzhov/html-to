@@ -18,8 +18,18 @@ describe HtmlTo::Chromium do
       end
     end
 
-    it 'path in configuration' do
-      expect(described_class.execute_path).to eq 'test-path'
+    context 'path in configuration exists' do
+      it 'return pass from configuration' do
+        allow(File).to receive(:exist?).with('test-path').and_return(true)
+        expect(described_class.execute_path).to eq 'test-path'
+      end
+    end
+
+    context 'path in configuration non exists' do
+      it 'return pass from configuration' do
+        allow(File).to receive(:exist?).with('test-path').and_return(false)
+        expect { described_class.execute_path }.to raise_error(ArgumentError)
+      end
     end
   end
 end

@@ -34,6 +34,7 @@ describe HtmlTo::ImageGenerate do
       end
 
       it 'cleans up temporary files' do
+        allow(File).to receive(:exist?).with(subject.screenshot_file_path).and_return true
         expect(FileUtils).to receive(:rm_f).with(subject.html_file_path)
         expect(FileUtils).to receive(:rm_f).with(subject.screenshot_file_path)
         expect(FileUtils).to receive(:rm_f).with('optimized_image.jpg')
@@ -45,9 +46,21 @@ describe HtmlTo::ImageGenerate do
     end
 
     context 'when an error occurs during execution' do
-      it 're-raises exceptions' do
+      before do
         expect(subject).to receive(:generate_template).and_raise(StandardError)
+      end
 
+      it 're-raises exceptions' do
+        expect { subject.call(record, serializer, options) }.to raise_error(StandardError)
+      end
+
+      it 'cleans up temporary files' do
+        expect(FileUtils).to receive(:rm_f).with(subject.html_file_path)
+        expect(FileUtils).to receive(:rm_f).with(subject.screenshot_file_path)
+        expect(FileUtils).not_to receive(:rm_f)
+        allow(subject).to receive(:generate_template)
+        allow(subject).to receive(:take_screenshot)
+        allow(subject).to receive(:attach_image)
         expect { subject.call(record, serializer, options) }.to raise_error(StandardError)
       end
     end
@@ -119,8 +132,16 @@ describe HtmlTo::ImageGenerate do
   end
 
   describe '#optimize_screenshot' do
+    context 'when screenshot file is not exist' do
+      it 'return nil' do
+        allow(File).to receive(:exist?).with(subject.screenshot_file_path).and_return false
+        expect(subject.optimize_screenshot).to eq nil
+      end
+    end
+
     context 'when image_processing is installed' do
       it 'optimizes the screenshot using MiniMagick' do
+        allow(File).to receive(:exist?).with(subject.screenshot_file_path).and_return true
         expect(subject).to receive(:image_processing_installed?).and_return(true)
 
         expect(ImageProcessing::MiniMagick).to receive(:source).with(subject.screenshot_file_path).and_return(ImageProcessing::MiniMagick)
@@ -136,6 +157,7 @@ describe HtmlTo::ImageGenerate do
 
     context 'when image_processing is not installed' do
       it 'returns the screenshot file path as-is' do
+        allow(File).to receive(:exist?).with(subject.screenshot_file_path).and_return true
         expect(subject).to receive(:image_processing_installed?).and_return(false)
 
         result = subject.optimize_screenshot

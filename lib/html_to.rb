@@ -108,7 +108,7 @@ module HtmlTo
     end
 
     def html_to_create_meta_image!
-      share_images_settings = [self.class.html_to_image_settings, *self.class.html_to_image_settings.additional_images]
+      share_images_settings = [self.class.html_to_image_settings, *self.class.html_to_image_settings.additional_images.values].flatten
       share_images_settings.each do |image_settings|
         generator_args = [
           id, self.class.name, image_settings.serializer, {

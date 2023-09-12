@@ -1,15 +1,7 @@
 describe HtmlTo do
   subject { dummy_class.new }
 
-  let(:dummy_class) do
-    Class.new(ActiveRecord::Base) do
-      def self.name
-        'DummyClass'
-      end
-      include HtmlTo
-      html_to 'DummySerializer'
-    end
-  end
+  let(:dummy_class) { Post }
 
   describe '.html_to' do
     it 'active storage uploader attached' do
@@ -47,15 +39,7 @@ describe HtmlTo do
     end
 
     context 'user options' do
-      let(:dummy_class) do
-        Class.new(ActiveRecord::Base) do
-          def self.name
-            'DummyClass'
-          end
-          include HtmlTo
-          html_to 'DummySerializer', width: 100
-        end
-      end
+      let(:dummy_class) { PostWithOptions }
 
       it 'assign correct' do
         expect(subject.html_to_image_settings.width).to eq 100
@@ -64,15 +48,7 @@ describe HtmlTo do
   end
 
   describe 'HtmlToImageSettings#validate_options' do
-    let(:dummy_class) do
-      Class.new(ActiveRecord::Base) do
-        def self.name
-          'DummyClass'
-        end
-        include HtmlTo
-        html_to 'DummySerializer', fake_option: 100
-      end
-    end
+    let(:dummy_class) { PostWithBadOptions }
 
     it 'unknown options' do
       expect { subject }.to raise_error(ArgumentError)
@@ -80,17 +56,7 @@ describe HtmlTo do
   end
 
   describe 'HtmlToImageSettings#add_image' do
-    let(:dummy_class) do
-      Class.new(ActiveRecord::Base) do
-        def self.name
-          'DummyClass'
-        end
-        include HtmlTo
-        html_to 'DummySerializer' do
-          add_image :meta_image2, 'DummySerializer'
-        end
-      end
-    end
+    let(:dummy_class) { PostWithTwoImage }
 
     it 'active storage additional uploader attached' do
       expect(dummy_class.attachment_reflections['meta_image2']).to be_truthy
@@ -110,7 +76,6 @@ describe HtmlTo do
       expect(dummy_class.method(:create_meta_images!).original_name).to eq(dummy_class.method(:html_to_create_meta_images!).original_name)
     end
 
-    # rubocop:disable RSpec/ExampleLength
     it 'calls #html_to_create_meta_image! on each object' do
       object1 = dummy_class.new
       object2 = dummy_class.new
@@ -125,11 +90,7 @@ describe HtmlTo do
 
   describe 'synchronous_options' do
     context 'when set synchronous true' do
-      before do
-        dummy_class.class_eval do
-          html_to 'FakeSerializer', synchronous: true
-        end
-      end
+      let(:dummy_class) { PostWithSynchronous }
 
       it 'is with synchronous' do
         subject = dummy_class.new
@@ -139,11 +100,7 @@ describe HtmlTo do
     end
 
     context 'when set synchronous false' do
-      before do
-        dummy_class.class_eval do
-          html_to 'FakeSerializer'
-        end
-      end
+      let(:dummy_class) { Post }
 
       it 'is without syncronous' do
         subject = dummy_class.new
@@ -163,24 +120,16 @@ describe HtmlTo do
     end
 
     it 'added job to queue' do
-      expect(HtmlTo::MetaImageGenerateJob).to receive(:perform_later).with(1, subject.class.name, 'DummySerializer', { height: 630, image_name: :meta_image, template: '/home/viktor/work/html-to/lib/views/html_to/white.html.erb', width: 1200 }
+      expect(HtmlTo::MetaImageGenerateJob).to receive(:perform_later).with(1, subject.class.name, 'HtmlTo::DummySerializer', { height: 630, image_name: :meta_image, template: '/home/viktor/work/html-to/lib/views/html_to/white.html.erb', width: 1200 }
       )
       subject.save
     end
 
     context 'when synchronous' do
-      let(:dummy_class) do
-        Class.new(ActiveRecord::Base) do
-          def self.name
-            'DummyClass'
-          end
-          include HtmlTo
-          html_to 'DummySerializer', synchronous: true
-        end
-      end
+      let(:dummy_class) { PostWithSynchronous }
 
       it 'job run synchronous' do
-        expect(HtmlTo::MetaImageGenerateJob).to receive(:perform_now).with(1, subject.class.name, 'DummySerializer', { height: 630, image_name: :meta_image, template: '/home/viktor/work/html-to/lib/views/html_to/white.html.erb', width: 1200 }
+        expect(HtmlTo::MetaImageGenerateJob).to receive(:perform_now).with(1, subject.class.name, 'HtmlTo::DummySerializer', { height: 630, image_name: :meta_image, template: '/home/viktor/work/html-to/lib/views/html_to/white.html.erb', width: 1200 }
         )
         subject.save
       end
@@ -198,15 +147,7 @@ describe HtmlTo do
     end
 
     context 'when skip_auto_update is set to true' do
-      let(:dummy_class) do
-        Class.new(ActiveRecord::Base) do
-          def self.name
-            'DummyClass'
-          end
-          include HtmlTo
-          html_to 'DummySerializer', skip_auto_update: true
-        end
-      end
+      let(:dummy_class) { PostWithSkipAutoUpdate }
 
       it 'is true' do
         subject.valid?

@@ -1,13 +1,13 @@
 describe HtmlTo::MetaImageGenerateJob, type: :job do
   describe '#perform' do
     let(:id) { 1 }
-    let(:class_name) { 'DummyModel' }
+    let(:class_name) { 'Dummy' }
     let(:serializer) { 'DummySerializer' }
     let(:options) { { some_option: 'value' } }
     let(:generator) { instance_double(HtmlTo::ImageGenerate, call: nil) }
 
     it 'calls HtmlTo::ImageGenerate.new.call with the correct arguments' do
-      record = double('DummyModel')
+      record = double('Dummy')
       allow(class_name.constantize).to receive(:find).with(id).and_return(record)
 
       allow(HtmlTo::ImageGenerate).to receive(:new).and_return(generator)
