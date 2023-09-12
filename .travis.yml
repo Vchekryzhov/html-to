@@ -10,4 +10,3 @@ before_install:
   - sudo apt-get -y install chromium-browser
 env:
   - 'TEST_RAILS_VERSION="~> 7.0.6"'
-  -
