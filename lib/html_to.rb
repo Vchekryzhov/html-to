@@ -26,7 +26,7 @@ module HtmlTo
     end
 
     def validate_options
-      @options.each_key { |opt| raise ArgumentError, "#{opt} is unknown option" unless OPTIONS.include? opt }
+      @options.each_key { |opt| raise ArgumentError, "html_to error #{opt} is unknown option" unless OPTIONS.include? opt }
     end
 
     def setup_options
@@ -57,7 +57,7 @@ module HtmlTo
 
       return gem_template.to_s if File.file? gem_template
 
-      raise ArgumentError, "Template file not found #{user_template} #{gem_template} "
+      raise ArgumentError, "html_to error Template file not found #{user_template} #{gem_template} "
     end
   end
   class << self

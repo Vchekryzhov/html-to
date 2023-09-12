@@ -33,7 +33,7 @@ class HtmlTo::ImageGenerate
     BASH
 
     %x(#{cmd})
-    raise StandardError, "result = #{$CHILD_STATUS}; command = #{cmd}" unless chromium_run_success?
+    raise StandardError, "html_to error result = #{$CHILD_STATUS}; command = #{cmd}" unless chromium_run_success?
   end
 
   def attach_image(record, image_name)

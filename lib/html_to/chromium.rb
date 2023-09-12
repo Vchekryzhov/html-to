@@ -23,7 +23,7 @@ module HtmlTo
                end
                which_path
              else
-               raise StandardError, "host os don't detected"
+               raise StandardError, "html_to error host os don't detected"
              end
       raise StandardError, 'html_to error: chromium executable path not found' if path.blank?
 

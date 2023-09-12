@@ -37,10 +37,18 @@ RSpec.describe HtmlTo, type: :job do
   context 'with bad options' do
     subject { dummy_class.new }
 
-    let(:dummy_class) { PostWithBadOptions }
+    let(:dummy_class) do
+      Class.new(ApplicationRecord) do
+        def self.table_name
+          :posts
+        end
+        include HtmlTo
+        html_to HtmlTo::DummySerializer, unknown_option: 100
+      end
+    end
 
     it 'raise with unknown options' do
-      expect { subject.save }.to raise_error(ArgumentError, 'unknown_option is unknown option')
+      expect { subject.save }.to raise_error(ArgumentError, 'html_to error unknown_option is unknown option')
     end
   end
 
