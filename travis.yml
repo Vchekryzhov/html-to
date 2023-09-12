@@ -7,6 +7,7 @@ install: bundle install --retry=3
 
 before_install:
   - gem update bundler
-
+  - sudo apt-get -y install chromium-browser
 env:
   - 'TEST_RAILS_VERSION="~> 7.0.6"'
+  -
