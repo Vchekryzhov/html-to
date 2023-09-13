@@ -1,3 +1,5 @@
+[![codecov](https://codecov.io/gh/codecov/gazebo/branch/main/graph/badge.svg?token=UAP786D58M)](https://codecov.io/gh/codecov/gazebo)
+
 # install
 ``` ruby
 gem 'html_to'
