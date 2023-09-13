@@ -82,7 +82,7 @@ describe HtmlTo::ImageGenerate do
       allow(HtmlTo::Chromium).to receive(:execute_path).and_return('/path/to/chromium')
 
       expect(subject).to receive(:`).with(
-        "/path/to/chromium --headless --screenshot=#{subject.screenshot_file_path} --window-size=800,600 --disable-gpu --disable-features=NetworkService #{subject.html_file_path}"
+        "/path/to/chromium --headless=new --screenshot=#{subject.screenshot_file_path} --window-size=800,600 --disable-gpu --disable-features=NetworkService #{subject.html_file_path}"
       )
       expect(subject).to receive(:chromium_run_success?).and_return(true)
       subject.take_screenshot(options[:width], options[:height])
@@ -91,7 +91,7 @@ describe HtmlTo::ImageGenerate do
     it 'raises an error if the Chromium command fails' do
       expect(HtmlTo::Chromium).to receive(:execute_path).and_return('/path/to/chromium')
       expect(subject).to receive(:`).with(
-        "/path/to/chromium --headless --screenshot=#{subject.screenshot_file_path} --window-size=800,600 --disable-gpu --disable-features=NetworkService #{subject.html_file_path}"
+        "/path/to/chromium --headless=new --screenshot=#{subject.screenshot_file_path} --window-size=800,600 --disable-gpu --disable-features=NetworkService #{subject.html_file_path}"
       )
       expect(subject).to receive(:chromium_run_success?).and_return(false)
       expect { subject.take_screenshot(options[:width], options[:height]) }.to raise_error(StandardError)

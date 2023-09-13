@@ -25,7 +25,7 @@ class HtmlTo::ImageGenerate
   def take_screenshot(width, height)
     cmd = <<~BASH.chomp
       #{HtmlTo::Chromium.execute_path} \
-      --headless \
+      --headless=new \
       --screenshot=#{screenshot_file_path} \
       --window-size=#{width},#{height} \
       --disable-gpu \
