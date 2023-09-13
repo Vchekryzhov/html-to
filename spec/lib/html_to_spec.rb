@@ -128,7 +128,7 @@ describe HtmlTo do
     end
 
     it 'added job to queue' do
-      expect(HtmlTo::MetaImageGenerateJob).to receive(:perform_later).with(1, subject.class.name, 'HtmlTo::DummySerializer', { height: 630, image_name: :meta_image, template: '/home/viktor/work/html-to/lib/views/html_to/white.html.erb', width: 1200 }
+      expect(HtmlTo::MetaImageGenerateJob).to receive(:perform_later).with(1, subject.class.name, 'HtmlTo::DummySerializer', hash_including(height: 630, image_name: :meta_image, template: %r{.*/html-to/lib/views/html_to/white.html.erb$}, width: 1200)
       )
       subject.save
     end
@@ -137,8 +137,7 @@ describe HtmlTo do
       let(:dummy_class) { PostWithSynchronous }
 
       it 'job run synchronous' do
-        expect(HtmlTo::MetaImageGenerateJob).to receive(:perform_now).with(1, subject.class.name, 'HtmlTo::DummySerializer', { height: 630, image_name: :meta_image, template: '/home/viktor/work/html-to/lib/views/html_to/white.html.erb', width: 1200 }
-        )
+        expect(HtmlTo::MetaImageGenerateJob).to receive(:perform_now).with(1, subject.class.name, 'HtmlTo::DummySerializer', hash_including(height: 630, image_name: :meta_image, template: %r{.*/html-to/lib/views/html_to/white.html.erb$}, width: 1200))
         subject.save
       end
     end
