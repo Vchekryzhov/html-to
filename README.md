@@ -1,4 +1,4 @@
-[![codecov](https://codecov.io/gh/codecov/gazebo/branch/main/graph/badge.svg?token=UAP786D58M)](https://codecov.io/gh/vchekryzhov/html-to)
+[![codecov](https://codecov.io/gh/Vchekryzhov/html-to/graph/badge.svg?token=27NK3S64MS)](https://codecov.io/gh/Vchekryzhov/html-to)
 
 # install
 ``` ruby
