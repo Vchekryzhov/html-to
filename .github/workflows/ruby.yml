@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ruby-version: ['2.6', '2.7', '3.0', '3.2']
+        ruby-version: ['2.7', '3.0', '3.2']
         test-rails-version: ['"~> 7.0.8"', '"~> 6.1.7.6"', '"~> 5.2.8"']
         
 
