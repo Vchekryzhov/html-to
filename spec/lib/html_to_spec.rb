@@ -38,7 +38,7 @@ describe HtmlTo do
       expect(subject.html_to_image_settings.image_name).to eq default_options[:image_name]
     end
 
-    context 'user options' do
+    context 'with user options' do
       let(:dummy_class) { PostWithOptions }
 
       it 'assign correct' do
@@ -145,8 +145,9 @@ describe HtmlTo do
 
   describe '#html_to_skip_meta_image_generate' do
     it 'is callable' do
-      expect(subject).to respond_to(:html_to_skip_meta_image_generate)
-      expect(subject).to respond_to(:html_to_skip_meta_image_generate=)
+      subject.html_to_skip_meta_image_generate = :test
+
+      expect(subject.html_to_skip_meta_image_generate).to eq(:test)
     end
 
     it 'by default is false' do

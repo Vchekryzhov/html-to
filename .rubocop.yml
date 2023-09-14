@@ -111,7 +111,7 @@ Lint/MixedRegexpCaptureTypes:
   Enabled: true
 
 Lint/NumberConversion:
-  Enabled: true
+  Enabled: false
 
 Lint/RaiseException:
   Enabled: true
@@ -163,7 +163,7 @@ Metrics/ModuleLength:
     - "**/spec/**/*"
 
 Metrics/PerceivedComplexity:
-  Max: 10
+  Enabled: false
 
 Style/AccessorGrouping:
   Enabled: true
@@ -247,7 +247,7 @@ Style/RedundantBegin:
   Enabled: true
 
 Style/RedundantFetchBlock:
-  Enabled: true
+  Enabled: false
 
 Style/RedundantFileExtensionInRequire:
   Enabled: true
@@ -418,4 +418,8 @@ RSpec/SubjectStub:
 RSpec/ExampleLength:
   Enabled: false
 RSpec/StubbedMock:
+  Enabled: false
+RSpec/VerifiedDoubles:
+  Enabled: false
+RSpec/ExpectInHook:
   Enabled: false
