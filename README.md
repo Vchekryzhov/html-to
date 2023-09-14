@@ -1,3 +1,7 @@
+[![codecov](https://codecov.io/gh/Vchekryzhov/html-to/graph/badge.svg?token=27NK3S64MS)](https://codecov.io/gh/Vchekryzhov/html-to)
+[![build](https://github.com/vchekryzhov/html-to/actions/workflows/ruby.yml/badge.svg)](https://github.com/vchekryzhov/html-to/actions/workflows/ruby.yml/badge.svg)
+
+
 # install
 ``` ruby
 gem 'html_to'
