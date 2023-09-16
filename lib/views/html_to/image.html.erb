@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Martian Mono">
+  <style>
+
+      body {
+          margin: 0;
+          font-family: "Martian Mono", sans-serif;
+      }
+      .image {
+          width: <%=width%>px;
+          height: <%=height%>px;
+          position: absolute;
+          float: left;
+          object-fit: cover;
+      }
+      .description{
+          position: absolute;
+          color: white;
+          z-index: 1;
+          font-size: 72px;
+          margin-top: 10%;
+          margin-left: 5%;
+      }
+      .root{
+          background-color: black;
+          width: <%=width%>px;
+          height: <%=height%>px;
+      }
+      .image {
+          opacity: 0.5;
+      }
+
+  </style>
+</head>
+  <body>
+    <div class="root">
+      <img class='image' src="<%=object.background_image %>" alt="img">
+      <p class="description">
+        <%=object.title%>
+      </p>
+    </div>
+  </body>
+</html>

@@ -2,7 +2,7 @@ require File.expand_path('lib/html_to/version', __dir__)
 
 Gem::Specification.new do |s|
   s.name = 'html_to'
-  s.required_ruby_version = '>= 2.5'
+  s.required_ruby_version = '>= 2.7'
   s.version = HtmlTo::VERSION
   s.summary = 'Html-To transforms html to image'
   s.description = 'Simple gem for transforms html page through chromium headless to image.'

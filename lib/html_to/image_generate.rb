@@ -5,7 +5,7 @@ require 'erb'
 class HtmlTo::ImageGenerate
   include HtmlTo::Chromium
   def call(record, serializer, options)
-    generate_template(record, serializer, options[:template])
+    generate_template(record, serializer, options[:template], options[:width], options[:height])
     take_screenshot(options[:width], options[:height])
     attach_image(record, options[:image_name])
   rescue StandardError
@@ -16,7 +16,7 @@ class HtmlTo::ImageGenerate
     FileUtils.rm_f(screenshot_file_path)
   end
 
-  def generate_template(record, serializer, template)
+  def generate_template(record, serializer, template, width, height)
     object = serializer.constantize.new(record)
     html = ERB.new(File.read(template)).result(binding)
     File.write(html_file_path, html)
@@ -25,7 +25,7 @@ class HtmlTo::ImageGenerate
   def take_screenshot(width, height)
     cmd = <<~BASH.chomp
       #{HtmlTo::Chromium.execute_path} \
-      --headless=new \
+      --headless \
       --screenshot=#{screenshot_file_path} \
       --window-size=#{width},#{height} \
       --disable-gpu \
@@ -37,8 +37,8 @@ class HtmlTo::ImageGenerate
   end
 
   def attach_image(record, image_name)
-    record.send(image_name).purge
     record.html_to_skip_meta_image_generate = true
+    record.send(image_name).purge
     record.send(image_name).attach(io: optimize_screenshot, filename: optimize_screenshot, content_type: 'image/png')
   end
 

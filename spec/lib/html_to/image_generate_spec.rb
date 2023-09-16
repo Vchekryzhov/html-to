@@ -26,7 +26,7 @@ describe HtmlTo::ImageGenerate do
   describe '#call' do
     context 'when everything is successful' do
       it 'generates HTML, takes a screenshot, and attaches an image' do
-        expect(subject).to receive(:generate_template).with(record, serializer, options[:template])
+        expect(subject).to receive(:generate_template).with(record, serializer, options[:template], options[:width], options[:height])
         expect(subject).to receive(:take_screenshot).with(options[:width], options[:height])
         expect(subject).to receive(:attach_image).with(record, options[:image_name])
 
@@ -73,7 +73,7 @@ describe HtmlTo::ImageGenerate do
 
       expect(File).to receive(:write).with(subject.html_file_path, '<html>template</html>')
 
-      subject.generate_template(record, serializer, options[:template])
+      subject.generate_template(record, serializer, options[:template], options[:width], options[:height])
     end
   end
 
@@ -82,7 +82,7 @@ describe HtmlTo::ImageGenerate do
       allow(HtmlTo::Chromium).to receive(:execute_path).and_return('/path/to/chromium')
 
       expect(subject).to receive(:`).with(
-        "/path/to/chromium --headless=new --screenshot=#{subject.screenshot_file_path} --window-size=800,600 --disable-gpu --disable-features=NetworkService #{subject.html_file_path}"
+        "/path/to/chromium --headless --screenshot=#{subject.screenshot_file_path} --window-size=800,600 --disable-gpu --disable-features=NetworkService #{subject.html_file_path}"
       )
       expect(subject).to receive(:chromium_run_success?).and_return(true)
       subject.take_screenshot(options[:width], options[:height])
@@ -91,7 +91,7 @@ describe HtmlTo::ImageGenerate do
     it 'raises an error if the Chromium command fails' do
       expect(HtmlTo::Chromium).to receive(:execute_path).and_return('/path/to/chromium')
       expect(subject).to receive(:`).with(
-        "/path/to/chromium --headless=new --screenshot=#{subject.screenshot_file_path} --window-size=800,600 --disable-gpu --disable-features=NetworkService #{subject.html_file_path}"
+        "/path/to/chromium --headless --screenshot=#{subject.screenshot_file_path} --window-size=800,600 --disable-gpu --disable-features=NetworkService #{subject.html_file_path}"
       )
       expect(subject).to receive(:chromium_run_success?).and_return(false)
       expect { subject.take_screenshot(options[:width], options[:height]) }.to raise_error(StandardError)

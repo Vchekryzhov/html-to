@@ -9,7 +9,7 @@ module HtmlTo
       template width height image_name
     ].freeze
     DEFAULT_OPTIONS = {
-      template: :white,
+      template: :circle,
       width: 1200,
       height: 630,
       image_name: :meta_image

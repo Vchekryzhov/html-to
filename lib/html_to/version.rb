@@ -1,4 +1,4 @@
 module HtmlTo
-  VERSION = '1.0.1'.freeze
+  VERSION = '1.1.1'.freeze
   public_constant :VERSION
 end

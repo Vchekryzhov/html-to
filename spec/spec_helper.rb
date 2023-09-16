@@ -18,6 +18,9 @@ RSpec.configure do |config|
     DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.clean_with(:truncation)
   end
+  config.after(:suite) do
+    FileUtils.rm_f( TEST_DATABASE_FILE )
+  end
 
   config.around(:each) do |example|
     DatabaseCleaner.cleaning do
@@ -27,7 +30,6 @@ RSpec.configure do |config|
   config.after(:each) do
     FileUtils.rm_rf( Dir.glob(Rails.root.join("tmp/storage/*")) )
   end
-
 end
 
 if ENV['CI'] == 'true'
