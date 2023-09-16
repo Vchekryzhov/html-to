@@ -15,7 +15,7 @@ HtmlTo is a gem for Rails that allows you to generate images from an HTML file.�
 
 ## Installation
 
-You need to have Chrome or Chromium installed 🛠️
+You need to have Chrome or Chromium installed 🛠️ And active-storage is required
 
 
 Ubuntu:
@@ -43,6 +43,8 @@ HtmlTo::Configuration.config do |config|
   config.chromium_path = './path-to-executable'
 end
 ```
+
+to optimize attached images add `gem 'image_processing'`
 
 ## Basic usage
 Add to your model 📖
