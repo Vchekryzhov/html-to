@@ -5,7 +5,7 @@ describe HtmlTo::ImageGenerate do
   subject { described_class.new }
 
   let(:record) { double }
-  let(:serializer) { double }
+  let(:serializer) { double(title: :double_title) }
   let(:options) { { template: 'template.html', width: 800, height: 600, image_name: 'image_name' } }
 
   before do
@@ -71,7 +71,14 @@ describe HtmlTo::ImageGenerate do
       allow(serializer).to receive(:constantize).and_return(serializer)
       allow(serializer).to receive(:new).with(record).and_return(serializer)
 
-      expect(File).to receive(:write).with(subject.html_file_path, '<html>template</html>')
+      allow(subject).to receive(:html_file_path).and_return('html_file_path')
+
+      file = instance_double(File, read: '<html>template <%=object.title%> <%=width%> <%=height%> </html>')
+
+      expect(File).to receive(:open).with(options[:template]).and_yield(file)
+
+
+      expect(File).to receive(:write).with('html_file_path', '<html>template double_title 800 600 </html>')
 
       subject.generate_template(record, serializer, options[:template], options[:width], options[:height])
     end
@@ -99,8 +106,10 @@ describe HtmlTo::ImageGenerate do
   end
 
   describe '#attach_image' do
+    let(:attachment_double) { double }
+    let(:double_file) { double }
+
     it 'purges the existing image' do
-      attachment_double = double
       expect(record).to receive(:send).twice.with(options[:image_name]).and_return(attachment_double)
       expect(attachment_double).to receive(:purge)
       allow(attachment_double).to receive(:attach)
@@ -108,14 +117,28 @@ describe HtmlTo::ImageGenerate do
     end
 
     it 'attaches the optimized screenshot as an image' do
-      attachment_double = double
-      expect(attachment_double).to receive(:attach).with(io: 'optimized_image.jpg', filename: 'optimized_image.jpg', content_type: 'image/png').and_return(true)
+      expect(double_file).to receive(:close)
+      expect(attachment_double).to receive(:attach).with(io: double_file, filename: double_file, content_type: 'image/png').and_return(true)
       allow(attachment_double).to receive(:purge)
       expect(record).to receive(:send).twice.with(options[:image_name]).and_return(attachment_double)
 
-      allow(subject).to receive(:optimize_screenshot).and_return('optimized_image.jpg')
+      allow(subject).to receive(:optimize_screenshot).and_return(double_file)
 
       subject.attach_image(record, options[:image_name])
+    end
+
+    context 'when image_processing is not installed' do
+      it 'attached non optimized screenshot' do
+        expect(double_file).to receive(:close)
+        allow(attachment_double).to receive(:purge)
+        expect(attachment_double).to receive(:attach).with(io: double_file, filename: double_file, content_type: 'image/png').and_return(true)
+        allow(subject).to receive(:screenshot_file_path).and_return('non_optimized_image.png')
+        allow(File).to receive(:exist?).with(subject.screenshot_file_path).and_return true
+        expect(subject).to receive(:image_processing_installed?).and_return(false)
+        expect(record).to receive(:send).twice.with(options[:image_name]).and_return(attachment_double)
+        allow(File).to receive(:open).with(subject.screenshot_file_path).and_return double_file
+        subject.attach_image(record, options[:image_name])
+      end
     end
   end
 
@@ -157,12 +180,12 @@ describe HtmlTo::ImageGenerate do
 
     context 'when image_processing is not installed' do
       it 'returns the screenshot file path as-is' do
+        double_file = double
+        allow(File).to receive(:open).with(subject.screenshot_file_path).and_return double_file
         allow(File).to receive(:exist?).with(subject.screenshot_file_path).and_return true
         expect(subject).to receive(:image_processing_installed?).and_return(false)
 
-        result = subject.optimize_screenshot
-
-        expect(result).to eq(subject.screenshot_file_path)
+        expect(subject.optimize_screenshot).to eq(double_file)
       end
     end
   end

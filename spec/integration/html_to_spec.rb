@@ -73,6 +73,19 @@ RSpec.describe HtmlTo, type: :job do
     it_behaves_like 'removing old images after generation'
   end
 
+  context 'when image_processing_is_not_instasll' do
+    subject { dummy_class.new }
+
+    before do
+      allow_any_instance_of(HtmlTo::ImageGenerate).to receive(:image_processing_installed?).and_return(false)
+    end
+
+    let(:dummy_class) { Post }
+
+    it_behaves_like 'successfully generation'
+    it_behaves_like 'removing old images after generation'
+  end
+
   context 'with skip auto update' do
     subject { dummy_class.new }
 

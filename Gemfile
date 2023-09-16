@@ -1,8 +1,9 @@
 source 'http://rubygems.org'
 gemspec
-gem 'image_processing'
+
 group :test do
   gem 'database_cleaner-active_record'
+  gem 'image_processing'
   gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
   gem 'database_cleaner'

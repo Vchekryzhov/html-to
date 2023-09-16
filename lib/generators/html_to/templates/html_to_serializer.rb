@@ -2,7 +2,7 @@ class HtmlToSerializer < HtmlTo::Serializer
   # you can have access to serialized record via object
 
   def title
-    object.title
+    'object.title'
   end
 
   def background_image

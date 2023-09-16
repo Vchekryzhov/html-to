@@ -1,87 +1,75 @@
 [![codecov](https://codecov.io/gh/Vchekryzhov/html-to/graph/badge.svg?token=27NK3S64MS)](https://codecov.io/gh/Vchekryzhov/html-to)
 [![build](https://github.com/vchekryzhov/html-to/actions/workflows/ruby.yml/badge.svg)](https://github.com/vchekryzhov/html-to/actions/workflows/ruby.yml/badge.svg)
+[![Gem Version](https://img.shields.io/gem/v/html_to.svg)](https://rubygems.org/gems/html_to)
+
+# Project Name 🔥
+
+HtmlTo is a gem for Rails that allows you to generate images from an HTML file.💡
+
+## 📋 Table of Contents
+
+- [Installation](#Installation)🚀
+- [Usage](#basic-usage) 📖
+- [Advanced usage](#advanced-usage) 🧰
 
 
-# install
-``` ruby
-gem 'html_to'
-```
-## dependencies
-### gem dependecies 
- - carrierwave
- - sidekiq
-### system dependecies
+## Installation
+
+You need to have Chrome or Chromium installed 🛠️
+
+
 Ubuntu:
 ``` bash
-sudo apt install imagemagick
 sudo apt install -y chromium-browser
 ```
 Debian:
 ```bash
-sudo apt install imagemagick
 apt-get install chromium chromium-l10n
 ```
-
-# Get Started
-### Prepare your model
-add string field to youe model, for attach uploader
-
-and add start to your model, what you want use
-``` ruby
-@@share_uploader = "share_image"
-@@share_template = 'share/post'
-include HtmlTo
+add gem to your gemfile
+```ruby
+gem 'html_to'
+```
+copy example serializer with
+```bash
+ rails generate html_to:install
 ```
 
-### creating template file
-
-you need create, on path ```@@share_template``` how example share/post will be ```app/views/share/post.html.erb```
-
-#### template file example:
-``` html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-	<style>
-
-		body {
-			margin: 0;
-		}
-		.image {
-			background-size: cover;
-			position: absolute;
-      float: left;
-      top: 0px;
-      width: 1200px;
-      height: 630px;
-      object-fit: y-repeat;
-
-    }
-    .description{
-      position: absolute;
-      font-size: 48px;
-      z-index: 1;
-    }
-
-	</style>
-</head>
-<body>
-	<div class="root">
-    <img class='image' src="https://images.unsplash.com/photo-1593642702821-c8da6771f0c6?ixid=MXwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1489&q=80">
-    <p class="description">
-      <%=obj.attributes%>
-      </p>
-	</div>
-</body>
-</html>
-
+### optional
+for set path to chromium executable 
+```ruby
+#confg/initializers/html_to.rb
+HtmlTo::Configuration.config do |config|
+  config.chromium_path = './path-to-executable'
+end
 ```
-In your template file you has access to your object via @obj
 
-#### Assets, font, etc
-Headless browser will be start from Rails public path, all local assets should be access in the public folder.
+## Basic usage
+Add to your model 📖
 
-# Runner
-gem use sidekiq worker and work at background. you need, to start your sidekiq.
+```ruby
+  include HtmlTo
+  html_to HtmlToSerializer
+```
+Now after save your model new image will generated and attached to ```meta_image``` in your model
+
+## Advanced usage
+available options for customizations 🧰
+```ruby
+  html_to HtmlTo::DummySerializer, image_name: :my_image, template: :image
+```
+| option             | descriotions                               | default    |
+|--------------------|--------------------------------------------|------------|
+| `image_name`       | name of attachment                         | meta_image |
+| `template`         | HTML template                              | circle     |
+| `synchronous`      | Run image generation job not in background | false      |
+| `skip_auto_update` | skip auto update after save                | false      |
+| `width`            | width of image                             | 1200       |
+| `height`           | height of image                            | 630        |
+
+### template customization
+there are two templates available `circle` and `image` for copy to your project:
+```bash
+rails generate html_to:copy_template
+```
+you can add your own template to `app/views/html_to/*`

@@ -16,6 +16,12 @@ Gem::Specification.new do |s|
                 'html_to.gemspec', '.github/*.md',
                 'Gemfile', 'Rakefile']
   s.extra_rdoc_files = ['README.md']
+
+  s.add_dependency 'activejob', '>= 5'
+  s.add_dependency 'activestorage', '>= 5'
+  s.add_dependency 'english'
+  s.add_dependency 'erb'
+
   if ENV['TEST_RAILS_VERSION'].nil?
     s.add_development_dependency 'rails', '~> 7.0.6'
   else

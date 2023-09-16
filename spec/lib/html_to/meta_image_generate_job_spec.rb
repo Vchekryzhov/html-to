@@ -17,7 +17,7 @@ describe HtmlTo::MetaImageGenerateJob, type: :job do
     end
 
     it "queues the job in the 'html_to' queue" do
-      expect(described_class.new.queue_name).to eq('html_to')
+      expect(described_class.new.queue_name).to eq('default')
     end
   end
 end

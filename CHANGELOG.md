@@ -1,4 +1,6 @@
 # Changelog
+## 1.1.1
+Added templates, added generators, updated Readme, updated dependencies
 ## 1.0.1
 Bug fixes. test refactor. Added integration tests
 ## 1.0.0 (5-Sep-2023)

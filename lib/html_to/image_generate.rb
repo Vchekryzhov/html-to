@@ -18,7 +18,9 @@ class HtmlTo::ImageGenerate
 
   def generate_template(record, serializer, template, width, height)
     object = serializer.constantize.new(record)
-    html = ERB.new(File.read(template)).result(binding)
+    html = File.open(template) do |f|
+      ERB.new(f.read).result(binding)
+    end
     File.write(html_file_path, html)
   end
 
@@ -40,6 +42,9 @@ class HtmlTo::ImageGenerate
     record.html_to_skip_meta_image_generate = true
     record.send(image_name).purge
     record.send(image_name).attach(io: optimize_screenshot, filename: optimize_screenshot, content_type: 'image/png')
+    return unless optimize_screenshot
+
+    optimize_screenshot.close
   end
 
   def html_file_path
@@ -59,9 +64,8 @@ class HtmlTo::ImageGenerate
                                  .convert('jpg')
                                  .saver(quality: 85)
                                  .call
-
                              else
-                               screenshot_file_path
+                               File.open(screenshot_file_path)
                              end
   end
 
