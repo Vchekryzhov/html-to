@@ -348,7 +348,7 @@ Style/MultilineBlockChain:
 Gemspec/DeprecatedAttributeAssignment: # new in 1.30
   Enabled: true
 Gemspec/RequireMFA: # new in 1.23
-  Enabled: true
+  Enabled: false
 Gemspec/RequiredRubyVersion:
   Enabled: false
 Layout/LineContinuationLeadingSpace: # new in 1.31

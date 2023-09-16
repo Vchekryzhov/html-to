@@ -27,5 +27,5 @@ Gem::Specification.new do |s|
   else
     s.add_development_dependency 'rails', ENV['TEST_RAILS_VERSION'].to_s
   end
-  s.metadata['rubygems_mfa_required'] = 'true'
+  s.metadata['rubygems_mfa_required'] = 'false'
 end

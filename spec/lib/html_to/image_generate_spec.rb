@@ -77,7 +77,6 @@ describe HtmlTo::ImageGenerate do
 
       expect(File).to receive(:open).with(options[:template]).and_yield(file)
 
-
       expect(File).to receive(:write).with('html_file_path', '<html>template double_title 800 600 </html>')
 
       subject.generate_template(record, serializer, options[:template], options[:width], options[:height])
