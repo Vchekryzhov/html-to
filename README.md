@@ -2,7 +2,7 @@
 [![build](https://github.com/vchekryzhov/html-to/actions/workflows/ruby.yml/badge.svg)](https://github.com/vchekryzhov/html-to/actions/workflows/ruby.yml/badge.svg)
 [![Gem Version](https://img.shields.io/gem/v/html_to.svg)](https://rubygems.org/gems/html_to)
 
-# Project Name 🔥
+# HtmlTo 🔥
 
 HtmlTo is a gem for Rails that allows you to generate images from an HTML file.💡
 
