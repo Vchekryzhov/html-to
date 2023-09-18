@@ -104,7 +104,7 @@ module HtmlTo
       base.instance_eval do
         alias_method :create_meta_image!, :html_to_create_meta_image! unless method_defined? :create_meta_images!
       end
-      base.after_commit :html_to_create_meta_image!, unless: :html_to_skip_meta_image_generate
+      base.after_save_commit :html_to_create_meta_image!, unless: :html_to_skip_meta_image_generate
     end
 
     def html_to_create_meta_image!

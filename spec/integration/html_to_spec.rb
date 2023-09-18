@@ -96,4 +96,15 @@ RSpec.describe HtmlTo, type: :job do
       expect(subject.meta_image.attached?).to eq false
     end
   end
+
+  context 'correct destroy' do
+    subject { dummy_class.new }
+
+    let(:dummy_class) { Post }
+
+    it 'is not generated' do
+      subject.save
+      subject.destroy
+    end
+  end
 end
