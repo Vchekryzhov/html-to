@@ -9,7 +9,7 @@ module HtmlTo
       end
 
       path = if /darwin/.match?(RbConfig::CONFIG['host_os'])
-               "/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
+               '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
              elsif /linux/.match?(RbConfig::CONFIG['host_os'])
                release = %x(lsb_release -i -s)
                %x(which chromium-browser)

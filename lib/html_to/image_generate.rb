@@ -1,7 +1,7 @@
 require 'fileutils'
 require_relative 'chromium'
 require 'erb'
-
+require 'shellwords'
 class HtmlTo::ImageGenerate
   include HtmlTo::Chromium
   def call(record, serializer, options)
@@ -26,7 +26,7 @@ class HtmlTo::ImageGenerate
 
   def take_screenshot(width, height)
     cmd = <<~BASH.chomp
-      #{HtmlTo::Chromium.execute_path} \
+      #{HtmlTo::Chromium.execute_path.shellescape} \
       --headless \
       --screenshot=#{screenshot_file_path} \
       --window-size=#{width},#{height} \
